@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<a href="http://localhost:8080/athtechEshop_war_exploded/api/product/hello">hello</a><br>
+<a href="http://localhost:8080/athtechEshop_war_exploded/api/product/hello2">hello2</a><br>
+<a href="http://localhost:8080/athtechEshop_war_exploded/api/product/product">Product</a><br>
+<input type="button" value="create product" onclick="sendProduct()">
+<div id="resultDiv"></div>
+<input type="text" id="productName" placeholder="Give productName"><br>
+<input type="number" id="productId" placeholder="Give productId"><br>
+<input type="text" id="productDescription" placeholder="Give productDescription"><br>
+
+<script>
+    function sendProduct(){
+      url="http://localhost:8080/athtechEshop_war_exploded/api/product/product";
+
+
+      var  data = {
+            name:document.getElementById("productName").value,
+            price:Number(document.getElementById("productDescription").value)
+        };
+
+
+        fetch(  url,{
+            method: "POST", // *GET, POST, PUT, DELETE, etc.
+            mode: "cors", // no-cors, *cors, same-origin
+            cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+            credentials: "same-origin", // include, *same-origin, omit
+            headers: {
+                "Content-Type": "application/json",
+                // 'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            redirect: "follow", // manual, *follow, error
+            referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+            body: JSON.stringify(data), // body data type must match "Content-Type" header
+        }). then(res => res.json())
+            .then(d => {
+             document.getElementById("resultDiv").innerHTML = JSON.stringify(d);
+        })
+
+
+
+
+    }
+
+
+</script>
+</body>
+</html>
