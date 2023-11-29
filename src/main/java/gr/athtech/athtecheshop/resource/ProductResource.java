@@ -20,13 +20,10 @@ public class ProductResource {
     }
 
 
-  
-
     @GET
-//   @Path("/")
     @Produces(MediaType.APPLICATION_JSON )
     @Consumes(MediaType.APPLICATION_JSON )
-    public List<Product> getAllProductById() {
+    public List<Product> getAllProduct() {
         return productDao.findAllProducts();
     }
 
@@ -39,11 +36,28 @@ public class ProductResource {
     }
 
     @POST
- //   @Path("/")
     @Produces(MediaType.APPLICATION_JSON )
     @Consumes(MediaType.APPLICATION_JSON )
     public Product createProduct(Product product) {
         productDao.save(product);
         return product;
+    }
+
+    @PUT
+    //   @Path("/")
+    @Produces(MediaType.APPLICATION_JSON )
+    @Consumes(MediaType.APPLICATION_JSON )
+    public boolean changeProductPrice(Product product) {
+        int id = product.getId();
+        int newPrice = product.getPrice();
+        return  productDao.changeProductPrice(id, newPrice);
+    }
+
+    @DELETE
+    @Path("/{productId}")
+    @Produces(MediaType.APPLICATION_JSON )
+    @Consumes(MediaType.APPLICATION_JSON )
+    public boolean deleteProduct(@PathParam("productId") int productId) {
+        return  productDao.removeProductById(productId);
     }
 }
