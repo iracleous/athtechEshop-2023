@@ -5,50 +5,29 @@
     <title>Title</title>
 </head>
 <body>
+<h1> Product manager</h1>
 
-<a href="http://localhost:8080/athtechEshop_war_exploded/api/product/hello">hello</a><br>
-<a href="http://localhost:8080/athtechEshop_war_exploded/api/product/hello2">hello2</a><br>
-<a href="http://localhost:8080/athtechEshop_war_exploded/api/product/product">Product</a><br>
-<input type="button" value="create product" onclick="sendProduct()">
+<a href="http://localhost:8080/athtechEshop_war_exploded/api/product/hello">Add</a>
+<a href="http://localhost:8080/athtechEshop_war_exploded/api/product">Get all</a>
+<a href="http://localhost:8080/athtechEshop_war_exploded/api/product">Change price</a>
+<a href="http://localhost:8080/athtechEshop_war_exploded/api/product">Delete product</a> <br>
+
+<input type="button" value="Add product" onclick="createProduct()">
+<input type="button" value="Find" onclick="findProduct()">
+<input type="button" value="Get all" onclick="getAllProduct()">
+<input type="button" value="Change price" onclick="changeProduct()">
+<input type="button" value="Delete product" onclick="deleteProduct()">
+<br>
+
+<div id="parametersDiv">
+    productId<input type="number" id="productId" placeholder="Give productId"><br>
+    productName<input type="text" id="productName" placeholder="Give productName"><br>
+    productPrice<input type="number" id="productPrice" placeholder="Give productPrice"><br>
+</div>
 <div id="resultDiv"></div>
-<input type="text" id="productName" placeholder="Give productName"><br>
-<input type="number" id="productId" placeholder="Give productId"><br>
-<input type="text" id="productDescription" placeholder="Give productDescription"><br>
+<div id="errorDiv"></div>
 
-<script>
-    function sendProduct(){
-      url="http://localhost:8080/athtechEshop_war_exploded/api/product/product";
+<script src="script.js"></script>
 
-
-      var  data = {
-            name:document.getElementById("productName").value,
-            price:Number(document.getElementById("productDescription").value)
-        };
-
-
-        fetch(  url,{
-            method: "POST", // *GET, POST, PUT, DELETE, etc.
-            mode: "cors", // no-cors, *cors, same-origin
-            cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
-            credentials: "same-origin", // include, *same-origin, omit
-            headers: {
-                "Content-Type": "application/json",
-                // 'Content-Type': 'application/x-www-form-urlencoded',
-            },
-            redirect: "follow", // manual, *follow, error
-            referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-            body: JSON.stringify(data), // body data type must match "Content-Type" header
-        }). then(res => res.json())
-            .then(d => {
-             document.getElementById("resultDiv").innerHTML = JSON.stringify(d);
-        })
-
-
-
-
-    }
-
-
-</script>
 </body>
 </html>

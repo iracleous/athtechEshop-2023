@@ -5,46 +5,45 @@ import gr.athtech.athtecheshop.model.Product;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 
-@Path("/product")
-public class HelloResource {
+import java.util.List;
+
+@Path("/product/")
+public class ProductResource {
+
+    private  ProductDao productDao = new ProductDao();
+
     @GET
-    @Path("/hello")
+    @Path("/ping")
     @Produces("text/plain")
     public String hello() {
         return "Hello, World!";
     }
 
 
+  
+
     @GET
-    @Path("/hello2")
-    @Produces("text/plain")
-    public String hello2() {
-        return "Hello, World! Aggain";
+//   @Path("/")
+    @Produces(MediaType.APPLICATION_JSON )
+    @Consumes(MediaType.APPLICATION_JSON )
+    public List<Product> getAllProductById() {
+        return productDao.findAllProducts();
     }
 
-
-
     @GET
-    @Path("/product/{id}")
+    @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON )
     @Consumes(MediaType.APPLICATION_JSON )
     public Product getProductById(@PathParam("id") int id) {
-        Product product = new Product();
-        product.setName("Chips");
-        product.setId(id);
-        return product;
+        return productDao.findProductById(id);
     }
 
     @POST
-    @Path("/product")
+ //   @Path("/")
     @Produces(MediaType.APPLICATION_JSON )
     @Consumes(MediaType.APPLICATION_JSON )
     public Product createProduct(Product product) {
-
-        ProductDao productDao = new ProductDao();
         productDao.save(product);
         return product;
     }
-
-
 }
