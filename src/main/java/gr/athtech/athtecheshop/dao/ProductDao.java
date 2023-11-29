@@ -3,6 +3,7 @@ package gr.athtech.athtecheshop.dao;
 import gr.athtech.athtecheshop.model.Product;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ProductDao implements ProductDaoInterface{
@@ -65,7 +66,30 @@ public class ProductDao implements ProductDaoInterface{
 
     @Override
     public List<Product> findAllProducts() {
-        return null;
+        List<Product> products = new ArrayList<>();
+        try {
+            Class.forName(JDBC_DRIVER);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        String sqlCommand = "select * from Product ;";
+        // Open a connection
+        try( Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+             PreparedStatement stmt = conn.prepareStatement(sqlCommand );
+        ) {
+            ResultSet results = stmt.executeQuery();
+           while( results.next()) {
+               Product product = new Product();
+               product.setId(results.getInt("id"));
+               product.setName(results.getString("name"));
+               product.setPrice(results.getInt("price"));
+               products.add(product);
+           }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return products;
     }
 
     @Override
