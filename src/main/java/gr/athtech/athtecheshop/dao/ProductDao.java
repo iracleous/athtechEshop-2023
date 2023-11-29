@@ -97,12 +97,47 @@ public class ProductDao implements ProductDaoInterface{
         Product product = findProductById(productId);
         if (product==null) return false;
 
-        return false;
+        try {
+            Class.forName(JDBC_DRIVER);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        String sqlCommand = "update    Product set price =?  where id =?;";
+        // Open a connection
+        try( Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+             PreparedStatement stmt = conn.prepareStatement(sqlCommand );
+        ) {
+            stmt.setInt(1,newPrice);
+            stmt.setInt(2,productId);
+            stmt.execute();
+            return true;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
     @Override
     public boolean removeProductById(int productId) {
-        return false;
+
+        Product product = findProductById(productId);
+        if (product==null) return false;
+        try {
+            Class.forName(JDBC_DRIVER);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        String sqlCommand = "delete from  Product where id =?;";
+        // Open a connection
+        try( Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+             PreparedStatement stmt = conn.prepareStatement(sqlCommand );
+        ) {
+            stmt.setInt(1,productId);
+            stmt.execute();
+            return true;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 
